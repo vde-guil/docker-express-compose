@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors')
 const MessageModel = require("./MessageModel")
+
 
 process.on("SIGINT", () => {
     console.log("Caught interrupt signal");
@@ -15,6 +17,8 @@ process.on("SIGTERM", () => {
 (async () => {
     const app = express();
 
+    app.use(cors())
+
     console.log("Connecting to MongoDB");
     await mongoose.connect("mongodb://mongodb:27017/tom", { useUnifiedTopology: true, useNewUrlParser: true });
     console.log("Connected");
@@ -22,6 +26,12 @@ process.on("SIGTERM", () => {
     app.get('/', (req, res) => {
         console.log("Got a request");
         res.json({ message: "Hey, I'm Tom, the freaking fucking API" });
+    });
+
+    app.get('/messages', async (req, res) => {
+        console.log("Got a request");
+        const messages = await MessageModel.find();
+        res.json({ messageList: messages});
     });
 
     app.post('/',  async (req, res) => {
