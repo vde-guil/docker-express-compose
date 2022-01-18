@@ -27,7 +27,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Welcome to my react App</h1>
+      <h1>Welcome to my react App hotreload marche</h1>
 
     <ul>
       {
